@@ -5,22 +5,44 @@
     <title>ZIM - Poonais and Portals - Code Creativity</title>
     <!-- zimjs.com - JavaScript Canvas Framework -->
     <script type=module>
-import zim from "https://zimjs.org/cdn/016/zim";
+import zim from "https://zimjs.org/cdn/016/zim_physics";
 
+const assets = [
+        "poonai1.png",
+        "poonai2.png",
+        "poonai3.png",
+        "poonai4.png",
+        "poonai5.png",
+      ];
+      const path = "assets/";
 // See Docs under Frame for FIT, FILL, FULL, and TAG
-new Frame(FIT, 1920, 1080, light, dark, ready);
+new Frame(FIT, 1920, 1080, light, dark, ready, assets, path);
 async function ready() {
     
     
+    const galaxyResponse = await fetch('/shaders/pinku.frag');
+    const galaxy = await galaxyResponse.text();
+    new Shader(W, H, galaxy
+    ).center();
 
-    const fragmentResponse = await fetch('/shaders/glossy.frag');
+    new Rectangle(W,H, "black").alp(0.8).center();
+
+    const fragmentResponse = await fetch('/shaders/halo.frag');
     const fragment = await fragmentResponse.text();
     new Shader(W, H, fragment
     ).center().drag();
 
+    const poonai1 = new Pic("poonai1.png")
+        .centerReg()      
+        .pos(0, -50, CENTER, CENTER)
+          
+          .sca(0.5);
+    
+
+    // new Shader(W,H, )
     const label = new Label({
     text:"Begin Meow!",
-    // size:20,
+    size:32,
     color:"white"
     // backgroundColor:"violet",
     // bold:true
@@ -30,16 +52,26 @@ async function ready() {
     label:label,
     width:390,
     height:110,
-    size:8,
     backgroundColor:"black",
     rollBackgroundColor:"gray",
     // borderWidth:0,
     // borderColor:"violet",
     // gradient:.3,
     corner:20
-    }).pos(0,100, CENTER, CENTER).tap(function() {
+    }).pos(0,100, CENTER, CENTER).tap(()=> {
+        //location.href = "poonaijumps.html";
+        poonai1.addPhysics();    
+        poonai1.impulse(400,-400);
+        Ticker.add(()=> {
+        // poonai1.force(2000,-2000);
+        });
+        zog("meow");
+        timeout(1, ()=> {
         location.href = "poonaijumps.html";
+        });
     });
+
+
         
 } 
 </script>
