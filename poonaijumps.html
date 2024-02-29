@@ -17,10 +17,27 @@
         "poonai5.png",
       ];
       const path = "assets/";
-      new Frame(FIT, 1920, 1080, light, dark, ready, assets, path);
-      function ready() {
+      new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
+      async function ready() {
         // given F (Frame), S (Stage), W (width), H (height)
         // put code here
+        const fragmentResponse = await fetch("/shaders/halo.frag");
+        const fragment = await fragmentResponse.text();
+
+        const circleContainer = new Container(W - 150, H - 150)
+          .reg(CENTER)
+          .pos(0, 0, CENTER, CENTER)
+          .sca(1)
+          .drag({ all: true });
+        const circleMask = new Circle(150, "gray")
+          .center(circleContainer)
+          .ord(-1)
+          .alp(0.2);
+        const halo = new Shader(W, H, fragment)
+          .centerReg()
+          .center(circleContainer)
+          .ord(2);
+        halo.sca(0.39);
 
         const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
         const poonai2 = new Pic("poonai2.png").centerReg().sca(1.5).vis(false);
@@ -40,6 +57,12 @@
           1
         );
 
+        circleContainer.on("pressmove", () => {
+          if (poonais.hitTestCircle(circleContainer)) {
+            S.removeChild(poonais);
+            S.update();
+          }
+        });
         // Ticker.add(poonaijump);
         // function poonaijump() {
         //   poonai1.force(40, 40, poonai1.x, poonai1.y);
