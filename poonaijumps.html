@@ -6,7 +6,7 @@
 
     <!-- zimjs.com - JavaScript Canvas Framework -->
     <script type="module">
-      import zim from "https://zimjs.org/cdn/016/zim";
+      import zim from "https://zimjs.org/cdn/016/zim_physics";
 
       // See Docs under Frame for FIT, FILL, FULL, and TAG
       const assets = [
@@ -17,14 +17,34 @@
         "poonai5.png",
       ];
       const path = "assets/";
-      new Frame(FIT, 1920, 1080, light, dark, ready);
+      new Frame(FIT, 1920, 1080, light, dark, ready, assets, path);
       function ready() {
         // given F (Frame), S (Stage), W (width), H (height)
         // put code here
 
-        const poonai1 = new Pic("poonai1.png")
-          .pos(370, 200, CENTER, TOP)
-          .sca(0.3);
+        const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
+        const poonai2 = new Pic("poonai2.png").centerReg().sca(1.5).vis(false);
+        const poonai3 = new Pic("poonai3.png").centerReg().vis(false);
+        const poonai4 = new Pic("poonai4.png").centerReg().vis(false);
+        const poonai5 = new Pic("poonai5.png").centerReg().vis(false);
+
+        const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
+        loop(
+          poonais,
+          (poonai) => {
+            poonai.addPhysics({ bounciness: 0.5, linear: 0.3 });
+            poonai.impulse(1000, -2500);
+            poonai.vis(true);
+          },
+          null,
+          1
+        );
+
+        // Ticker.add(poonaijump);
+        // function poonaijump() {
+        //   poonai1.force(40, 40, poonai1.x, poonai1.y);
+        // }
+        // Ticker.remove(poonaijump);
       } // end ready
     </script>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
