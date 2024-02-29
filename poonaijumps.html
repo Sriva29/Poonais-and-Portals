@@ -52,17 +52,18 @@
             poonai.addPhysics({ bounciness: 0.5, linear: 0.3 });
             poonai.impulse(1000, -2500);
             poonai.vis(true);
+
+            circleContainer.on("pressmove", () => {
+              if (poonai.hitTestRect(circleContainer)) {
+                S.removeChild(poonai);
+                S.update();
+              }
+            });
           },
           null,
           1
         );
 
-        circleContainer.on("pressmove", () => {
-          if (poonais.hitTestCircle(circleContainer)) {
-            S.removeChild(poonais);
-            S.update();
-          }
-        });
         // Ticker.add(poonaijump);
         // function poonaijump() {
         //   poonai1.force(40, 40, poonai1.x, poonai1.y);
