@@ -13,13 +13,15 @@ const assets = [
         "poonai3.png",
         "poonai4.png",
         "poonai5.png",
+        "catboo.ttf",
+        "meow.ogg"
       ];
       const path = "assets/";
 // See Docs under Frame for FIT, FILL, FULL, and TAG
 new Frame(FIT, 1920, 1080, light, dark, ready, assets, path);
 async function ready() {
     
-    
+    const meow = new Aud("meow.ogg");
     const galaxyResponse = await fetch('/shaders/pinku.frag');
     const galaxy = await galaxyResponse.text();
     new Shader(W, H, galaxy
@@ -41,7 +43,8 @@ async function ready() {
     const label = new Label({
     text:"Begin Meow!",
     size:32,
-    color:"white"
+    color:"white",
+    font:"catboo"
     // backgroundColor:"violet",
     // bold:true
     });
@@ -59,7 +62,7 @@ async function ready() {
     width:390,
     height:110,
     backgroundColor:"black",
-    rollBackgroundColor:"gray",
+    rollBackgroundColor:"brown",
     // borderWidth:0,
     // borderColor:"violet",
     // gradient:.3,
@@ -77,8 +80,13 @@ async function ready() {
         });
     });
 
-    const poonaisSaved = new Label({text:"Poonais Saved:", size:38, color:"white"}).pos(220,60, RIGHT, TOP);
+    const poonaisSaved = new Label({text:"Poonais Saved:", size:38, font:"catboo", color:"white"}).pos(220,60, RIGHT, TOP);
+    const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,300, CENTER,CENTER);
     const scorer = new Scorer({backgroundColor:yellow, color:black, isometric:RIGHT}).loc(W-100,100);
+    scorer.score++;
+    scorer.score++;
+    // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
+    new Rectangle(100,100, "red").center().mov(0,100);
         
 } 
 </script>
