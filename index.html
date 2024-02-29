@@ -29,8 +29,7 @@ async function ready() {
 
     const fragmentResponse = await fetch('/shaders/halo.frag');
     const fragment = await fragmentResponse.text();
-    new Shader(W, H, fragment
-    ).center().drag();
+
 
     const poonai1 = new Pic("poonai1.png")
         .centerReg()      
@@ -47,6 +46,14 @@ async function ready() {
     // backgroundColor:"violet",
     // bold:true
     });
+
+    const circleContainer = new Container(W-150,H-150).reg(CENTER).pos(0,0, CENTER, CENTER).sca(1).drag({all:true});
+    const circleMask = new Circle(150, "gray").center(circleContainer).ord(-1).alp(0.2);
+    const halo = new Shader(W, H, fragment
+    ).centerReg().center(circleContainer).ord(2);
+    halo.sca(0.39)
+    // halo.setMask(circleMask);
+    // circleMask.setMask(halo);
 
     new Button({
     label:label,
@@ -67,11 +74,9 @@ async function ready() {
         });
         zog("meow");
         timeout(1, ()=> {
-        location.href = "poonaijumps.html";
+        // location.href = "poonaijumps.html";
         });
     });
-
-
         
 } 
 </script>
