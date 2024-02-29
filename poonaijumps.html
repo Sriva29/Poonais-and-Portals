@@ -17,12 +17,14 @@
         "poonai5.png",
       ];
       const path = "assets/";
-      new Frame(FIT, 1024, 768, light, dark, ready);
+      new Frame(FIT, 1920, 1080, light, dark, ready);
       function ready() {
         // given F (Frame), S (Stage), W (width), H (height)
         // put code here
 
-        new Circle(100, purple).center().drag();
+        const poonai1 = new Pic("poonai1.png")
+          .pos(370, 200, CENTER, TOP)
+          .sca(0.3);
       } // end ready
     </script>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
