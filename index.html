@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<title>ZIM - Code Creativity</title>
-
-<!-- zimjs.com - JavaScript Canvas Framework -->
-<script type=module>
-
+    <meta charset="utf-8" />
+    <title>ZIM - Poonais and Portals - Code Creativity</title>
+    <!-- zimjs.com - JavaScript Canvas Framework -->
+    <script type=module>
 import zim from "https://zimjs.org/cdn/016/zim";
 
 // See Docs under Frame for FIT, FILL, FULL, and TAG
 new Frame(FIT, 1024, 768, light, dark, ready);
 function ready() {
     
-    // given F (Frame), S (Stage), W (width), H (height)
-    // put code here
-    
-    new Circle(100, purple)
-        .center()
-        .drag();
-        
-} // end ready
+    const label = new Label({
+    text:"Begin Meow!",
+    size:20,
+    color:"white"
+    // backgroundColor:"violet",
+    // bold:true
+    });
 
+    new Button({
+    label:label,
+    width:390,
+    height:110,
+    size:8,
+    backgroundColor:"black",
+    rollBackgroundColor:"gray",
+    // borderWidth:0,
+    // borderColor:"violet",
+    // gradient:.3,
+    corner:20
+    }).pos(0,100, CENTER, CENTER);
+        
+} 
 </script>
-<meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
 </head>
 <body></body>
 </html>
