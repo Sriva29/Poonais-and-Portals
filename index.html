@@ -24,7 +24,6 @@ async function ready() {
     const galaxy = await galaxyResponse.text();
     new Shader(W, H, galaxy
     ).center();
-
     new Rectangle(W,H, "black").alp(0.8).center();
 
     const fragmentResponse = await fetch('/shaders/halo.frag');
@@ -77,6 +76,9 @@ async function ready() {
         // location.href = "poonaijumps.html";
         });
     });
+
+    const poonaisSaved = new Label({text:"Poonais Saved:", size:38, color:"white"}).pos(220,60, RIGHT, TOP);
+    const scorer = new Scorer({backgroundColor:yellow, color:black, isometric:RIGHT}).loc(W-100,100);
         
 } 
 </script>
