@@ -8,12 +8,19 @@
 import zim from "https://zimjs.org/cdn/016/zim";
 
 // See Docs under Frame for FIT, FILL, FULL, and TAG
-new Frame(FIT, 1024, 768, light, dark, ready);
-function ready() {
+new Frame(FIT, 1920, 1080, light, dark, ready);
+async function ready() {
     
+    
+
+    const fragmentResponse = await fetch('/shaders/glossy.frag');
+    const fragment = await fragmentResponse.text();
+    new Shader(W, H, fragment
+    ).center().drag();
+
     const label = new Label({
     text:"Begin Meow!",
-    size:20,
+    // size:20,
     color:"white"
     // backgroundColor:"violet",
     // bold:true
@@ -30,7 +37,9 @@ function ready() {
     // borderColor:"violet",
     // gradient:.3,
     corner:20
-    }).pos(0,100, CENTER, CENTER);
+    }).pos(0,100, CENTER, CENTER).tap(function() {
+        location.href = "poonaijumps.html";
+    });
         
 } 
 </script>
