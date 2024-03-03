@@ -22,6 +22,7 @@ new Frame(FIT, 1920, 1080, light, dark, ready, assets, path);
 async function ready() {
     
     const meow = new Aud("meow.ogg");
+    // meow.play();
     const galaxyResponse = await fetch('/shaders/pinku.frag');
     const galaxy = await galaxyResponse.text();
     new Shader(W, H, galaxy
@@ -86,7 +87,13 @@ async function ready() {
     scorer.score++;
     scorer.score++;
     // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
-    new Rectangle(100,100, "red").center().mov(0,100);
+    const timer = new Container(200,200).pos(50,50,RIGHT,BOTTOM);
+    const timerBG = new Rectangle(100,100, "red").center(timer);
+    const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
+    interval(1, ()=> {
+    timerText.text--;
+    });
+
         
 } 
 </script>
