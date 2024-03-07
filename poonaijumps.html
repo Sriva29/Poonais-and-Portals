@@ -55,19 +55,21 @@
         //   .ord(2);
         // catcherShader.sca(0.39);
 
-        const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
-        const poonai2 = new Pic("poonai2.png").centerReg().vis(false);
-        const poonai3 = new Pic("poonai3.png").centerReg().vis(false);
-        const poonai4 = new Pic("poonai4.png").centerReg().vis(false);
-        const poonai5 = new Pic("poonai5.png").centerReg().vis(false);
+        const poonai1 = new Pic("poonai1.png").centerReg().vis(false).drag();
+        const poonai2 = new Pic("poonai2.png").centerReg().vis(false).drag();
+        const poonai3 = new Pic("poonai3.png").centerReg().vis(false).drag();
+        const poonai4 = new Pic("poonai4.png").centerReg().vis(false).drag();
+        const poonai5 = new Pic("poonai5.png").centerReg().vis(false).drag();
 
         const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
         
         loop(poonais,(poonai) => {
-            poonai.addPhysics({ bounciness: 0.5, linear: 0.3 });
+            poonai.addPhysics({ bounciness: 0.5, linear: 0.3, shape: "circle" });
             poonai.impulse(1000, -2500);
             poonai.sca(0.5);
             poonai.vis(true);
+            poonai.pos(0,0,CENTER,CENTER,circleContainer);
+            // poonai.drag();
 
             circleContainer.on("pressmove", () => {
               if (poonai.hitTestRect(circleContainer)) {

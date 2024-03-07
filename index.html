@@ -18,15 +18,16 @@ const assets = [
       ];
       const path = "assets/";
 // See Docs under Frame for FIT, FILL, FULL, and TAG
-new Frame(FIT, 1920, 1080, light, dark, ready, assets, path);
+new Frame(FIT, 1920, 1080, clear, dark, ready, assets, path);
 async function ready() {
     
     const meow = new Aud("meow.ogg");
     // meow.play();
     const galaxyResponse = await fetch('/shaders/pinku.frag');
     const galaxy = await galaxyResponse.text();
-    new Shader(W, H, galaxy
+    const bgShader = new ShaderOverlay(W, H, galaxy
     ).center();
+    bgShader.tag.style.zIndex = -50;
     new Rectangle(W,H, "black").alp(0.8).center();
 
     const fragmentResponse = await fetch('/shaders/halo.frag');
