@@ -51,6 +51,7 @@
           (poonai) => {
             poonai.addPhysics({ bounciness: 0.5, linear: 0.3 });
             poonai.impulse(1000, -2500);
+            poonai.sca(0.5);
             poonai.vis(true);
 
             circleContainer.on("pressmove", () => {
