@@ -26,18 +26,33 @@
 
         const circleContainer = new Container(W - 150, H - 150)
           .reg(CENTER)
-          .pos(0, 0, CENTER, CENTER)
+          .pos(100, 100, LEFT, BOTTOM)
           .sca(1)
-          .drag({ all: true });
+          // .drag({ all: true });
         const circleMask = new Circle(150, "gray")
-          .center(circleContainer)
+          .pos(100,0,LEFT, CENTER, circleContainer)
           .ord(-1)
           .alp(0.2);
         const halo = new Shader(W, H, fragment)
           .centerReg()
-          .center(circleContainer)
+          .pos(-100,100,LEFT, BOTTOM, circleContainer)
           .ord(2);
         halo.sca(0.39);
+
+        // const poonaiCatcher = new Container(W - 150, H - 150)
+        //   .reg(CENTER)
+        //   .pos(100, 0, LEFT, CENTER)
+        //   .sca(1)
+        //   .drag({ all: true });
+        // const catcherMask = new Circle(150, "gray")
+        //   .pos(100,0,LEFT, CENTER, poonaiCatcher)
+        //   .ord(-1)
+        //   .alp(0.2);
+        // const catcherShader = new Shader(W, H, fragment)
+        //   .centerReg()
+        //   .pos(-100,100,LEFT, BOTTOM, poonaiCatcher)
+        //   .ord(2);
+        // catcherShader.sca(0.39);
 
         const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
         const poonai2 = new Pic("poonai2.png").centerReg().sca(1.5).vis(false);
@@ -62,7 +77,7 @@
             });
           },
           null,
-          1
+          2
         );
 
         // Ticker.add(poonaijump);
