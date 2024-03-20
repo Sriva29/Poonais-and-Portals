@@ -24,6 +24,10 @@
         const fragmentResponse = await fetch("/shaders/halo.frag");
         const fragment = await fragmentResponse.text();
 
+        const infernoResponse = await fetch('/shaders/inferno.frag');
+        const infernoFrag = await infernoResponse.text();
+        const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
+
         const circleContainer = new Container(W - 150, H - 150)
           .centerReg()
           .pos(100, 100, LEFT, BOTTOM)
@@ -63,10 +67,12 @@
 
         const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
         
+        // const lava = new Rectangle(W, 250, red).loc(0, H-0.1*H);
+
         loop(poonais,(poonai) => {
             poonai.addPhysics({ bounciness: 0.5, linear: 0.3, shape: "circle" });
             poonai.impulse(1000, -2500);
-            poonai.sca(0.3);
+            // poonai.sca(0.3);
             poonai.vis(true);
             poonai.pos(0,0,CENTER,CENTER,circleContainer);
             // poonai.drag();
