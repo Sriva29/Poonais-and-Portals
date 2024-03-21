@@ -67,18 +67,16 @@
 
         const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
         
-        // const lava = new Rectangle(W, 250, red).loc(0, H-0.1*H);
-
         loop(poonais,(poonai) => {
             poonai.addPhysics({ bounciness: 0.5, linear: 0.3, shape: "circle" });
             poonai.impulse(1000, -2500);
             // poonai.sca(0.3);
             poonai.vis(true);
-            poonai.pos(0,0,CENTER,CENTER,circleContainer);
+            poonai.pos(0,0,CENTER,CENTER,inferno);
             // poonai.drag();
 
-            circleContainer.on("pressmove", () => {
-              if (poonai.hitTestRect(circleContainer)) {
+            inferno.on("tick", () => {
+              if (poonai.hitTestRect(inferno)) {
                 S.removeChild(poonai);
                 S.update();
               }
@@ -87,6 +85,21 @@
           null,
           2
         );
+
+        // const lava = new Rectangle(W, 250, red).loc(0, H-0.1*H);
+        Ticker.add(poonaiRemover);
+        function poonaiRemover(){
+          loop(poonais, (poonai)=>{
+            // zog(poonai.y);
+            // zog(inferno.y)
+            if (poonai.y >= inferno.y){
+              zog("burn");
+              S.removeChild(poonai);
+              S.update();
+            }
+          })
+        }
+
 
         // Ticker.add(poonaijump);
         // function poonaijump() {
