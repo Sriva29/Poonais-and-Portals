@@ -15,6 +15,7 @@
         "poonai3.png",
         "poonai4.png",
         "poonai5.png",
+        "flames.png"
       ];
       const path = "assets/";
       new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
@@ -24,9 +25,11 @@
         const fragmentResponse = await fetch("/shaders/halo.frag");
         const fragment = await fragmentResponse.text();
 
-        const infernoResponse = await fetch('/shaders/inferno.frag');
-        const infernoFrag = await infernoResponse.text();
-        const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
+        // const infernoResponse = await fetch('/shaders/inferno.frag');
+        // const infernoFrag = await infernoResponse.text();
+        // const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
+
+        const flames = new Pic("flames.png").loc(0,0);
 
         const circleContainer = new Container(W - 150, H - 150)
           .centerReg()
@@ -59,11 +62,11 @@
         //   .ord(2);
         // catcherShader.sca(0.39);
 
-        const poonai1 = new Pic("poonai1.png").centerReg().vis(false).drag();
-        const poonai2 = new Pic("poonai2.png").centerReg().vis(false).drag();
-        const poonai3 = new Pic("poonai3.png").centerReg().vis(false).drag();
-        const poonai4 = new Pic("poonai4.png").centerReg().vis(false).drag();
-        const poonai5 = new Pic("poonai5.png").centerReg().vis(false).drag();
+        const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
+        const poonai2 = new Pic("poonai2.png").centerReg().vis(false);
+        const poonai3 = new Pic("poonai3.png").centerReg().vis(false);
+        const poonai4 = new Pic("poonai4.png").centerReg().vis(false);
+        const poonai5 = new Pic("poonai5.png").centerReg().vis(false);
 
         const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
         
@@ -100,6 +103,19 @@
           })
         }
 
+
+        const poonaisSaved = new Label({text:"Poonais Saved:", size:38, font:"catboo", color:"white"}).pos(220,60, RIGHT, TOP);
+    const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,300, CENTER,CENTER);
+    const scorer = new Scorer({backgroundColor:yellow, color:black, isometric:RIGHT}).loc(W-100,100);
+    scorer.score++;
+    scorer.score++;
+    // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
+    const timer = new Container(200,200).pos(50,50,RIGHT,BOTTOM);
+    const timerBG = new Rectangle(100,100, "red").center(timer);
+    const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
+    interval(1, ()=> {
+    timerText.text--;
+    });
 
         // Ticker.add(poonaijump);
         // function poonaijump() {
