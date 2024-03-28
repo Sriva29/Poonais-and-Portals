@@ -17,7 +17,7 @@
         "poonai5.png",
         "catboo.ttf",
         "flames.png",
-        "meow.ogg"
+        "meow.ogg",
       ];
       const path = "assets/";
       new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
@@ -67,7 +67,7 @@
           .pos(555, 0, LEFT, CENTER, circleContainer2)
           .ord(2);
         haloCatch.sca(0.39);
-        circleContainer2.sca(0.9);
+        // circleContainer2.sca(0.8).outline();
 
         // const poonaiCatcher = new Container(W - 150, H - 150)
         //   .reg(CENTER)
@@ -94,8 +94,20 @@
 
         // let xRand = rand(180,400);
         // let yRand = rand(-150,-400);
-        const xImp = series(rand(180, 220), rand(80, 100), rand(400, 450), rand(250, 220), rand(300, 520));
-        const yImp = series(rand(-180, -150), rand(-50,-100), rand(-400,-300), rand(-250,-125), rand(-300,-500));
+        const xImp = series(
+          rand(180, 220),
+          rand(80, 100),
+          rand(400, 450),
+          rand(250, 220),
+          rand(300, 520)
+        );
+        const yImp = series(
+          rand(-180, -150),
+          rand(-50, -100),
+          rand(-400, -300),
+          rand(-250, -125),
+          rand(-300, -500)
+        );
         loop(
           poonais,
           (poonai) => {
@@ -105,12 +117,21 @@
               linear: 0.3,
               shape: "circle",
             });
+
             poonai.impulse(xImp(), rand(-150, -400));
             // poonai.impulse(xRand, yRand);
             // poonai.sca(0.3);
             poonai.vis(true);
             // poonai.drag();
-
+            circleContainer2.on("pressmove", () => {
+              //instructions.removeFrom();
+              if (poonai.hitTestCircle(haloCatch)) {
+                zog("catch");
+                poonai.dispose();
+                scorer.score++;
+                S.update();
+              }
+            });
             // flames.on("tick", () => {
             //   if (poonai.hitTestRect(flames)) {
             //     S.removeChild(poonai);
@@ -122,38 +143,83 @@
           2
         );
 
-        // const lava = new Rectangle(W, 250, red).loc(0, H-0.1*H);
+        const instructions = new Label({
+          text: "Drag the circle to save the poonais",
+          size: 25,
+          font: "catboo",
+          color: "white",
+        }).pos(250, 270, RIGHT, TOP);
+
+        let explodeBool = false;
         Ticker.add(poonaiRemover);
         function poonaiRemover() {
           loop(
             poonais,
             (poonai) => {
-              // zog(poonai.y);
-              // zog(inferno.y)
               if (poonai.y >= H - 100) {
                 zog("burn");
-                // S.removeChild(poonai);
+                let px = poonai.x;
+                let py = poonai.y;
+                explosion(px, py);
                 poonai.dispose();
                 S.update();
               }
+              // else if (poonai.hitTestCircle(circleContainer2)) {
+              //   zog("catch");
+              //   poonai.dispose();
+              //   S.update();
+              // }
             },
             true
           );
         }
 
+        function explosion(px, py) {
+          const emitter = new Emitter(new Circle(5, ["#FF97FF", "#00CCFF"]))
+            .loc(px, py)
+            .sca(1)
+            .spurt(5, 1);
+          timeout(3, () => {
+            emitter.dispose();
+            S.update();
+            explodeBool = false;
+          });
+        }
+
+        loop(poonais, (poonai) => {});
+
         // UI
-        const poonaisSaved = new Label({text:"Poonais Saved:", size:32, font:"catboo", color:"white"}).pos(200,60, RIGHT, TOP);
-        const timeLeft = new Label({text:"Time Left:", size:32, font:"catboo", color:"white"}).pos(80,60, LEFT, TOP);
-        const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,100, CENTER,TOP);
-        const scorer = new Scorer({backgroundColor:"#D1007D", color:white,font: "catboo", isometric:false}).loc(W-120,80);
-        scorer.score = 5;
+        const poonaisSaved = new Label({
+          text: "Poonais Saved:",
+          size: 32,
+          font: "catboo",
+          color: "white",
+        }).pos(200, 60, RIGHT, TOP);
+        const timeLeft = new Label({
+          text: "Time Left:",
+          size: 32,
+          font: "catboo",
+          color: "white",
+        }).pos(80, 60, LEFT, TOP);
+        var scorer = new Scorer({
+          backgroundColor: "#D1007D",
+          color: white,
+          font: "catboo",
+          isometric: false,
+        }).loc(W - 120, 80);
+        scorer.score = 0;
         scorer.sca(0.8);
         // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
-        const timer = new Container(200,200).pos(230,5,LEFT,TOP).sca(0.7);
-        const timerBG = new Rectangle(150,80, "#D1007D").center(timer);
-        const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
-        interval(1, ()=> {
-        timerText.text--;
+        const timer = new Container(200, 200).pos(230, 5, LEFT, TOP).sca(0.7);
+        const timerBG = new Rectangle(150, 80, "#D1007D").center(timer);
+        const timerText = new Label({
+          text: "60",
+          size: 38,
+          font: "catboo",
+          color: "white",
+        }).center(timer);
+        interval(1, () => {
+          timerText.text--;
         });
         // Ticker.add(poonaijump);
         // function poonaijump() {
