@@ -32,7 +32,6 @@
         const flames = new Pic("flames.png")
           .sca(1.2)
           .pos(0, -10, CENTER, BOTTOM);
-
         const circleContainer = new Container(W - 150, H - 150)
           .centerReg()
           .pos(100, 100, LEFT, BOTTOM)
@@ -75,6 +74,7 @@
         loop(
           poonais,
           (poonai) => {
+            poonai.pos(0, 0, CENTER, CENTER);
             poonai.addPhysics({
               bounciness: 0.5,
               linear: 0.3,
@@ -83,15 +83,14 @@
             poonai.impulse(1000, -2500);
             // poonai.sca(0.3);
             poonai.vis(true);
-            poonai.pos(0, 0, CENTER, CENTER, inferno);
             // poonai.drag();
 
-            inferno.on("tick", () => {
-              if (poonai.hitTestRect(inferno)) {
-                S.removeChild(poonai);
-                S.update();
-              }
-            });
+            // flames.on("tick", () => {
+            //   if (poonai.hitTestRect(flames)) {
+            //     S.removeChild(poonai);
+            //     S.update();
+            //   }
+            // });
           },
           null,
           2
@@ -100,15 +99,20 @@
         // const lava = new Rectangle(W, 250, red).loc(0, H-0.1*H);
         Ticker.add(poonaiRemover);
         function poonaiRemover() {
-          loop(poonais, (poonai) => {
-            // zog(poonai.y);
-            // zog(inferno.y)
-            if (poonai.y >= inferno.y) {
-              zog("burn");
-              S.removeChild(poonai);
-              S.update();
-            }
-          });
+          loop(
+            poonais,
+            (poonai) => {
+              // zog(poonai.y);
+              // zog(inferno.y)
+              if (poonai.y >= H - 100) {
+                zog("burn");
+                // S.removeChild(poonai);
+                poonai.dispose();
+                S.update();
+              }
+            },
+            true
+          );
         }
 
         const poonaisSaved = new Label({
