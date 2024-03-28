@@ -83,12 +83,12 @@ async function ready() {
     });
 
     const poonaisSaved = new Label({text:"Poonais Saved:", size:38, font:"catboo", color:"white"}).pos(220,60, RIGHT, TOP);
-    const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,300, CENTER,CENTER);
+    const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,100, CENTER,TOP);
     const scorer = new Scorer({backgroundColor:yellow, color:black, isometric:RIGHT}).loc(W-100,100);
     scorer.score++;
     scorer.score++;
     // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
-    const timer = new Container(200,200).pos(50,50,RIGHT,BOTTOM);
+    const timer = new Container(200,200).pos(50,100,RIGHT,TOP).sca(0.7);
     const timerBG = new Rectangle(100,100, "red").center(timer);
     const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
     interval(1, ()=> {
