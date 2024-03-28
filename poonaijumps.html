@@ -15,7 +15,7 @@
         "poonai3.png",
         "poonai4.png",
         "poonai5.png",
-        "flames.png"
+        "flames.png",
       ];
       const path = "assets/";
       new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
@@ -29,21 +29,23 @@
         // const infernoFrag = await infernoResponse.text();
         // const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
 
-        const flames = new Pic("flames.png").loc(0,0);
+        const flames = new Pic("flames.png")
+          .sca(1.2)
+          .pos(0, -10, CENTER, BOTTOM);
 
         const circleContainer = new Container(W - 150, H - 150)
           .centerReg()
           .pos(100, 100, LEFT, BOTTOM)
-          .sca(1)
-          // .drag({ all: true });
+          .sca(1);
+        // .drag({ all: true });
         const circleMask = new Circle(150, "gray")
-        .centerReg()
-          .pos(100,0,LEFT, CENTER, circleContainer)
+          .centerReg()
+          .pos(100, 0, LEFT, CENTER, circleContainer)
           .ord(-1)
           .alp(0.2);
         const halo = new Shader(W, H, fragment)
           .centerReg()
-          .pos(555,0,RIGHT, CENTER, circleContainer)
+          .pos(555, 0, RIGHT, CENTER, circleContainer)
           .ord(2);
         halo.sca(0.39);
 
@@ -69,13 +71,19 @@
         const poonai5 = new Pic("poonai5.png").centerReg().vis(false);
 
         const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
-        
-        loop(poonais,(poonai) => {
-            poonai.addPhysics({ bounciness: 0.5, linear: 0.3, shape: "circle" });
+
+        loop(
+          poonais,
+          (poonai) => {
+            poonai.addPhysics({
+              bounciness: 0.5,
+              linear: 0.3,
+              shape: "circle",
+            });
             poonai.impulse(1000, -2500);
             // poonai.sca(0.3);
             poonai.vis(true);
-            poonai.pos(0,0,CENTER,CENTER,inferno);
+            poonai.pos(0, 0, CENTER, CENTER, inferno);
             // poonai.drag();
 
             inferno.on("tick", () => {
@@ -91,31 +99,49 @@
 
         // const lava = new Rectangle(W, 250, red).loc(0, H-0.1*H);
         Ticker.add(poonaiRemover);
-        function poonaiRemover(){
-          loop(poonais, (poonai)=>{
+        function poonaiRemover() {
+          loop(poonais, (poonai) => {
             // zog(poonai.y);
             // zog(inferno.y)
-            if (poonai.y >= inferno.y){
+            if (poonai.y >= inferno.y) {
               zog("burn");
               S.removeChild(poonai);
               S.update();
             }
-          })
+          });
         }
 
-
-        const poonaisSaved = new Label({text:"Poonais Saved:", size:38, font:"catboo", color:"white"}).pos(220,60, RIGHT, TOP);
-    const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,300, CENTER,CENTER);
-    const scorer = new Scorer({backgroundColor:yellow, color:black, isometric:RIGHT}).loc(W-100,100);
-    scorer.score++;
-    scorer.score++;
-    // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
-    const timer = new Container(200,200).pos(50,50,RIGHT,BOTTOM);
-    const timerBG = new Rectangle(100,100, "red").center(timer);
-    const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
-    interval(1, ()=> {
-    timerText.text--;
-    });
+        const poonaisSaved = new Label({
+          text: "Poonais Saved:",
+          size: 38,
+          font: "catboo",
+          color: "white",
+        }).pos(220, 60, RIGHT, TOP);
+        const instructions = new Label({
+          text: "Drag the circle to save the poonais",
+          size: 25,
+          font: "catboo",
+          color: "white",
+        }).pos(0, 300, CENTER, CENTER);
+        const scorer = new Scorer({
+          backgroundColor: yellow,
+          color: black,
+          isometric: RIGHT,
+        }).loc(W - 100, 100);
+        scorer.score++;
+        scorer.score++;
+        // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
+        const timer = new Container(200, 200).pos(50, 50, RIGHT, BOTTOM);
+        const timerBG = new Rectangle(100, 100, "red").center(timer);
+        const timerText = new Label({
+          text: "60",
+          size: 38,
+          font: "catboo",
+          color: "white",
+        }).center(timer);
+        interval(1, () => {
+          timerText.text--;
+        });
 
         // Ticker.add(poonaijump);
         // function poonaijump() {
