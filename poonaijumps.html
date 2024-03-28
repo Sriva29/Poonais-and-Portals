@@ -25,6 +25,9 @@
         const fragmentResponse = await fetch("/shaders/halo.frag");
         const fragment = await fragmentResponse.text();
 
+        const fragmentResponse2 = await fetch("/shaders/halo2.frag");
+        const fragment2 = await fragmentResponse2.text();
+
         // const infernoResponse = await fetch('/shaders/inferno.frag');
         // const infernoFrag = await infernoResponse.text();
         // const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
@@ -34,9 +37,7 @@
           .pos(0, -10, CENTER, BOTTOM);
         const circleContainer = new Container(W - 150, H - 150)
           .centerReg()
-          .pos(100, 100, LEFT, BOTTOM)
-          .sca(1);
-        // .drag({ all: true });
+          .pos(50, 100, LEFT, BOTTOM);
         const circleMask = new Circle(150, "gray")
           .centerReg()
           .pos(100, 0, LEFT, CENTER, circleContainer)
@@ -47,6 +48,24 @@
           .pos(555, 0, RIGHT, CENTER, circleContainer)
           .ord(2);
         halo.sca(0.39);
+        circleContainer.sca(0.7);
+
+        const circleContainer2 = new Container(W - 150, H - 150)
+          .centerReg()
+          .pos(100, 100, RIGHT, BOTTOM)
+          .sca(1)
+          .drag({ all: true });
+        const circleMask2 = new Circle(150, "gray")
+          .centerReg()
+          .pos(100, 0, RIGHT, CENTER, circleContainer2)
+          .ord(-1)
+          .alp(0.2);
+        const haloCatch = new Shader(W, H, fragment2)
+          .centerReg()
+          .pos(555, 0, LEFT, CENTER, circleContainer2)
+          .ord(2);
+        haloCatch.sca(0.39);
+        circleContainer2.sca(0.9);
 
         // const poonaiCatcher = new Container(W - 150, H - 150)
         //   .reg(CENTER)
@@ -74,7 +93,7 @@
         loop(
           poonais,
           (poonai) => {
-            poonai.pos(0, 0, CENTER, CENTER);
+            poonai.pos(410, 0, LEFT, CENTER);
             poonai.addPhysics({
               bounciness: 0.5,
               linear: 0.3,
