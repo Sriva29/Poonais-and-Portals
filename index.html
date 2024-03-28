@@ -75,20 +75,20 @@ async function ready() {
     });
 
 
-    // UI
-    const poonaisSaved = new Label({text:"Poonais Saved:", size:32, font:"catboo", color:"white"}).pos(200,60, RIGHT, TOP);
-    const timeLeft = new Label({text:"Time Left:", size:32, font:"catboo", color:"white"}).pos(80,60, LEFT, TOP);
-    const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,100, CENTER,TOP);
-    const scorer = new Scorer({backgroundColor:"#D1007D", color:white,font: "catboo", isometric:false}).loc(W-120,80);
-    scorer.score = 5;
-    scorer.sca(0.8);
-    // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
-    const timer = new Container(200,200).pos(230,5,LEFT,TOP).sca(0.7);
-    const timerBG = new Rectangle(150,80, "#D1007D").center(timer);
-    const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
-    interval(1, ()=> {
-    timerText.text--;
-    });
+    // // UI
+    // const poonaisSaved = new Label({text:"Poonais Saved:", size:32, font:"catboo", color:"white"}).pos(200,60, RIGHT, TOP);
+    // const timeLeft = new Label({text:"Time Left:", size:32, font:"catboo", color:"white"}).pos(80,60, LEFT, TOP);
+    // const instructions = new Label({text:"Drag the circle to save the poonais", size:25, font:"catboo", color:"white"}).pos(0,100, CENTER,TOP);
+    // const scorer = new Scorer({backgroundColor:"#D1007D", color:white,font: "catboo", isometric:false}).loc(W-120,80);
+    // scorer.score = 5;
+    // scorer.sca(0.8);
+    // // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
+    // const timer = new Container(200,200).pos(230,5,LEFT,TOP).sca(0.7);
+    // const timerBG = new Rectangle(150,80, "#D1007D").center(timer);
+    // const timerText = new Label({text:"60", size:38, font:"catboo", color:"white"}).center(timer);
+    // interval(1, ()=> {
+    // timerText.text--;
+    // });
 
         
 } 

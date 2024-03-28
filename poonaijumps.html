@@ -15,7 +15,9 @@
         "poonai3.png",
         "poonai4.png",
         "poonai5.png",
+        "catboo.ttf",
         "flames.png",
+        "meow.ogg"
       ];
       const path = "assets/";
       new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
@@ -90,6 +92,10 @@
 
         const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
 
+        // let xRand = rand(180,400);
+        // let yRand = rand(-150,-400);
+        const xImp = series(rand(180, 220), rand(80, 100), rand(400, 450), rand(250, 220), rand(300, 520));
+        const yImp = series(rand(-180, -150), rand(-50,-100), rand(-400,-300), rand(-250,-125), rand(-300,-500));
         loop(
           poonais,
           (poonai) => {
@@ -99,7 +105,8 @@
               linear: 0.3,
               shape: "circle",
             });
-            poonai.impulse(1000, -2500);
+            poonai.impulse(xImp(), rand(-150, -400));
+            // poonai.impulse(xRand, yRand);
             // poonai.sca(0.3);
             poonai.vis(true);
             // poonai.drag();
@@ -133,7 +140,6 @@
             true
           );
         }
-
 
         // UI
         const poonaisSaved = new Label({text:"Poonais Saved:", size:32, font:"catboo", color:"white"}).pos(200,60, RIGHT, TOP);
