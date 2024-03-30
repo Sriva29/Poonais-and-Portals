@@ -74,6 +74,12 @@ async function ready() {
         });
     });
 
+    const retry = new Button(200, 80, "Retry", "black");
+    const pane = new Pane(
+        {content: retry, titleBar:"Game Over!", backgroundColor:"#FF75D8"}).show(); 
+    
+
+    
 
     // // UI
     // const poonaisSaved = new Label({text:"Poonais Saved:", size:32, font:"catboo", color:"white"}).pos(200,60, RIGHT, TOP);
