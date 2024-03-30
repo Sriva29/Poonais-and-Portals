@@ -20,7 +20,7 @@ const assets = [
 new Frame(FIT, 1920, 1080, clear, dark, ready, assets, path);
 async function ready() { 
     const meow = new Aud("meow.ogg");
-    // meow.play();
+    meow.play();
     const galaxyResponse = await fetch('/shaders/pinku.frag');
     const galaxy = await galaxyResponse.text();
     const bgShader = new ShaderOverlay(W, H, galaxy
@@ -62,7 +62,7 @@ async function ready() {
     // gradient:.3,
     corner:20
     }).pos(0,100, CENTER, CENTER).tap(()=> {
-        //location.href = "poonaijumps.html";
+        location.href = "poonaijumps.html";
         poonai1.addPhysics();    
         poonai1.impulse(400,-400);
         Ticker.add(()=> {
@@ -73,11 +73,6 @@ async function ready() {
         location.href = "poonaijumps.html";
         });
     });
-
-    const retry = new Button(200, 80, "Retry", "black");
-    const pane = new Pane(
-        {content: retry, titleBar:"Game Over!", backgroundColor:"#FF75D8"}).show(); 
-    
 
     
 

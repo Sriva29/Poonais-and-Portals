@@ -1,234 +1,263 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>ZIM - Code Creativity</title>
+<head>
+<meta charset="utf-8" />
+<title>ZIM - Code Creativity</title>
 
-    <!-- zimjs.com - JavaScript Canvas Framework -->
-    <script type="module">
-      import zim from "https://zimjs.org/cdn/016/zim_physics";
+<!-- zimjs.com - JavaScript Canvas Framework -->
+<script type="module">
+import zim from "https://zimjs.org/cdn/016/zim_physics";
 
-      // See Docs under Frame for FIT, FILL, FULL, and TAG
-      const assets = [
-        "poonai1.png",
-        "poonai2.png",
-        "poonai3.png",
-        "poonai4.png",
-        "poonai5.png",
-        "catboo.ttf",
-        "flames.png",
-        "meow.ogg",
-      ];
-      const path = "assets/";
-      new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
-      async function ready() {
-        // given F (Frame), S (Stage), W (width), H (height)
-        // put code here
-        const fragmentResponse = await fetch("/shaders/halo.frag");
-        const fragment = await fragmentResponse.text();
+// See Docs under Frame for FIT, FILL, FULL, and TAG
+const assets = [
+  "poonai1.png",
+  "poonai2.png",
+  "poonai3.png",
+  "poonai4.png",
+  "poonai5.png",
+  "catboo.ttf",
+  "flames.png",
+  "meow.ogg",
+  "meow-2.wav"
+];
+const path = "assets/";
+new Frame(FIT, 1920, 1080, interstellar, dark, ready, assets, path);
+async function ready() {
+  const meow = new Aud("meow.ogg");
+  const meow2 = new Aud("meow-2.wav");
+  const fragmentResponse = await fetch("/shaders/halo.frag");
+  const fragment = await fragmentResponse.text();
 
-        const fragmentResponse2 = await fetch("/shaders/halo2.frag");
-        const fragment2 = await fragmentResponse2.text();
+  const fragmentResponse2 = await fetch("/shaders/halo2.frag");
+  const fragment2 = await fragmentResponse2.text();
 
-        // const infernoResponse = await fetch('/shaders/inferno.frag');
-        // const infernoFrag = await infernoResponse.text();
-        // const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
+  // const infernoResponse = await fetch('/shaders/inferno.frag');
+  // const infernoFrag = await infernoResponse.text();
+  // const inferno = new Shader(W, 250, infernoFrag).loc(0, H-0.1*H);
 
-        const flames = new Pic("flames.png")
-          .sca(1.2)
-          .pos(0, -10, CENTER, BOTTOM);
-        const circleContainer = new Container(W - 150, H - 150)
-          .centerReg()
-          .pos(50, 100, LEFT, BOTTOM);
-        const circleMask = new Circle(150, "gray")
-          .centerReg()
-          .pos(100, 0, LEFT, CENTER, circleContainer)
-          .ord(-1)
-          .alp(0.2);
-        const halo = new Shader(W, H, fragment)
-          .centerReg()
-          .pos(555, 0, RIGHT, CENTER, circleContainer)
-          .ord(2);
-        halo.sca(0.39);
-        circleContainer.sca(0.7);
+  let timerRunning = false;
+  
+  const flames = new Pic("flames.png")
+    .sca(1.2)
+    .pos(0, -100, CENTER, BOTTOM);
+  const circleContainer = new Container(W - 150, H - 150)
+    .centerReg()
+    .pos(50, 100, LEFT, BOTTOM);
+  const circleMask = new Circle(150, "gray")
+    .centerReg()
+    .pos(100, 0, LEFT, CENTER, circleContainer)
+    .ord(-1)
+    .alp(0.2);
+  const halo = new Shader(W, H, fragment)
+    .centerReg()
+    .pos(555, 0, RIGHT, CENTER, circleContainer)
+    .ord(2);
+  halo.sca(0.39);
+  // halo.outline();
+  circleContainer.sca(0.4);
+  circleContainer.mov(-380)
 
-        const circleContainer2 = new Container(W - 150, H - 150)
-          .centerReg()
-          .pos(100, 100, RIGHT, BOTTOM)
-          .sca(1)
-          .drag({ all: true });
-        const circleMask2 = new Circle(150, "gray")
-          .centerReg()
-          .pos(100, 0, RIGHT, CENTER, circleContainer2)
-          .ord(-1)
-          .alp(0.2);
-        const haloCatch = new Shader(W, H, fragment2)
-          .centerReg()
-          .pos(555, 0, LEFT, CENTER, circleContainer2)
-          .ord(2);
-        haloCatch.sca(0.39);
-        // circleContainer2.sca(0.8).outline();
+  const circleContainer2 = new Container(W - 150, H - 150)
+    .centerReg()
+    .pos(100, 100, RIGHT, BOTTOM)
+    .sca(1)
+    .drag({ all: true });
+  const circleMask2 = new Circle(150, "gray")
+    .centerReg()
+    .pos(100, 0, RIGHT, CENTER, circleContainer2)
+    .ord(-1)
+    .alp(0.2);
+  const haloCatch = new Shader(W, H, fragment2)
+    .centerReg()
+    .pos(555, 0, LEFT, CENTER, circleContainer2)
+    .ord(2);
+  haloCatch.sca(0.39);
+  circleContainer2.sca(0.6)
+  // .outline();
 
-        // const poonaiCatcher = new Container(W - 150, H - 150)
-        //   .reg(CENTER)
-        //   .pos(100, 0, LEFT, CENTER)
-        //   .sca(1)
-        //   .drag({ all: true });
-        // const catcherMask = new Circle(150, "gray")
-        //   .pos(100,0,LEFT, CENTER, poonaiCatcher)
-        //   .ord(-1)
-        //   .alp(0.2);
-        // const catcherShader = new Shader(W, H, fragment)
-        //   .centerReg()
-        //   .pos(-100,100,LEFT, BOTTOM, poonaiCatcher)
-        //   .ord(2);
-        // catcherShader.sca(0.39);
+  const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
+  const poonai2 = new Pic("poonai2.png").centerReg().vis(false);
+  const poonai3 = new Pic("poonai3.png").centerReg().vis(false);
+  const poonai4 = new Pic("poonai4.png").centerReg().vis(false);
+  const poonai5 = new Pic("poonai5.png").centerReg().vis(false);
+  const poonai6 = new Pic("poonai1.png").centerReg().vis(false);
+  const poonai7 = new Pic("poonai2.png").centerReg().vis(false);
+  const poonai8 = new Pic("poonai3.png").centerReg().vis(false);
+  const poonai9 = new Pic("poonai4.png").centerReg().vis(false);
+  const poonai10 = new Pic("poonai5.png").centerReg().vis(false);
+  const poonai11 = new Pic("poonai1.png").centerReg().vis(false);
+  const poonai12 = new Pic("poonai2.png").centerReg().vis(false);
+  const poonai13 = new Pic("poonai3.png").centerReg().vis(false);
+  const poonai14 = new Pic("poonai4.png").centerReg().vis(false);
+  const poonai15 = new Pic("poonai5.png").centerReg().vis(false);
+  const poonai16 = new Pic("poonai1.png").centerReg().vis(false);
+  const poonai17 = new Pic("poonai2.png").centerReg().vis(false);
+  const poonai18 = new Pic("poonai3.png").centerReg().vis(false);
+  const poonai19 = new Pic("poonai4.png").centerReg().vis(false);
+  const poonai20 = new Pic("poonai5.png").centerReg().vis(false);
+  const poonai21 = new Pic("poonai1.png").centerReg().vis(false);
+  const poonai22 = new Pic("poonai2.png").centerReg().vis(false);
+  const poonai23 = new Pic("poonai3.png").centerReg().vis(false);
+  const poonai24 = new Pic("poonai4.png").centerReg().vis(false);
+  const poonai25 = new Pic("poonai5.png").centerReg().vis(false);
+  const poonai26 = new Pic("poonai1.png").centerReg().vis(false);
+  const poonai27 = new Pic("poonai2.png").centerReg().vis(false);
+  const poonai28 = new Pic("poonai3.png").centerReg().vis(false);
+  const poonai29 = new Pic("poonai4.png").centerReg().vis(false);
+  const poonai30 = new Pic("poonai5.png").centerReg().vis(false);
 
-        const poonai1 = new Pic("poonai1.png").centerReg().vis(false);
-        const poonai2 = new Pic("poonai2.png").centerReg().vis(false);
-        const poonai3 = new Pic("poonai3.png").centerReg().vis(false);
-        const poonai4 = new Pic("poonai4.png").centerReg().vis(false);
-        const poonai5 = new Pic("poonai5.png").centerReg().vis(false);
+  const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5, poonai6, poonai7, poonai8, poonai9, poonai10, poonai11, poonai12, poonai13, poonai14, poonai15, poonai16, poonai17, poonai18, poonai19, poonai20, poonai21, poonai22, poonai23, poonai24, poonai25, poonai26, poonai27, poonai28, poonai29, poonai30];
 
-        const poonais = [poonai1, poonai2, poonai3, poonai4, poonai5];
-
-        // let xRand = rand(180,400);
-        // let yRand = rand(-150,-400);
-        const xImp = series(
-          rand(180, 220),
-          rand(80, 100),
-          rand(400, 450),
-          rand(250, 220),
-          rand(300, 520)
-        );
-        const yImp = series(
-          rand(-180, -150),
-          rand(-50, -100),
-          rand(-400, -300),
-          rand(-250, -125),
-          rand(-300, -500)
-        );
-        loop(
-          poonais,
-          (poonai) => {
-            poonai.pos(410, 0, LEFT, CENTER);
-            poonai.addPhysics({
-              bounciness: 0.5,
-              linear: 0.3,
-              shape: "circle",
-            });
-
-            poonai.impulse(xImp(), rand(-150, -400));
-            // poonai.impulse(xRand, yRand);
-            // poonai.sca(0.3);
-            poonai.vis(true);
-            // poonai.drag();
-            circleContainer2.on("pressmove", () => {
-              //instructions.removeFrom();
-              if (poonai.hitTestCircle(haloCatch)) {
-                zog("catch");
-                poonai.dispose();
-                scorer.score++;
-                S.update();
-              }
-            });
-            // flames.on("tick", () => {
-            //   if (poonai.hitTestRect(flames)) {
-            //     S.removeChild(poonai);
-            //     S.update();
-            //   }
-            // });
-          },
-          null,
-          2
-        );
-
-        const instructions = new Label({
-          text: "Drag the circle to save the poonais",
-          size: 25,
-          font: "catboo",
-          color: "white",
-        }).pos(250, 270, RIGHT, TOP);
-
-        let explodeBool = false;
-        Ticker.add(poonaiRemover);
-        function poonaiRemover() {
-          loop(
-            poonais,
-            (poonai) => {
-              if (poonai.y >= H - 100) {
-                zog("burn");
-                let px = poonai.x;
-                let py = poonai.y;
-                explosion(px, py);
-                poonai.dispose();
-                S.update();
-              }
-              // else if (poonai.hitTestCircle(circleContainer2)) {
-              //   zog("catch");
-              //   poonai.dispose();
-              //   S.update();
-              // }
-            },
-            true
-          );
+  const xImp = series(
+    rand(180, 220),
+    rand(80, 100),
+    rand(400, 450),
+    rand(250, 220),
+    rand(300, 520)
+  );
+  const yImp = series(
+    rand(-180, -150),
+    rand(-50, -100),
+    rand(-400, -300),
+    rand(-250, -125),
+    rand(-300, -500)
+  );
+  loop(poonais, 
+    (poonai) => {
+      poonai.pos(410-210, 0, LEFT, CENTER);
+      poonai.addPhysics({
+        bounciness: 0.5,
+        linear: 0.3,
+        shape: "circle",
+      });
+      poonai.impulse(xImp(), rand(-150, -400));
+      poonai.vis(true);
+      // poonai.drag();
+      circleContainer2.on("pressmove", () => {
+        if(instructions) instructions.removeFrom();
+        if (poonai.hitTestCircle(haloCatch)) {
+          zog("catch");
+          poonai.dispose();
+          scorer.score++;
+          meow.play();
+          S.update();
         }
+      });
+    }, null,2
+  );
 
-        function explosion(px, py) {
-          const emitter = new Emitter(new Circle(5, ["#FF97FF", "#00CCFF"]))
-            .loc(px, py)
-            .sca(1)
-            .spurt(5, 1);
-          timeout(3, () => {
-            emitter.dispose();
-            S.update();
-            explodeBool = false;
-          });
+  const instructions = new Label({
+    text: "Drag the bubble to save the poonais",
+    size: 25,
+    font: "catboo",
+    color: "white",
+  }).pos(250, 270, RIGHT, TOP);
+
+  let explodeBool = false;
+  let audioPlayed = false; // Step 1: Define the flag
+
+function burn(){
+  if(explodeBool && !audioPlayed){ // Step 2: Check if explodeBool is true and audio hasn't been played
+    zog("burn");
+    explodeBool = false;
+    meow2.play();
+    audioPlayed = true; // Prevent further audio playback until reset
+  }  
+}
+
+// Example of resetting the flag
+// You'll need to find an appropriate place in your code to reset the flag
+// It could be when the game resets, when the cat is far enough from the flames, etc.
+function resetAudioFlag() {
+  audioPlayed = false;
+}
+
+  Ticker.add(poonaiRemover);
+  function poonaiRemover() {
+    loop(poonais,(poonai) => {
+        if (poonai.y >= H - 100) {
+          explodeBool = true;
+          let px = poonai.x;
+          let py = poonai.y;
+          // explosion(px, py);
+          poonai.dispose();
+          // poonai.removeFrom();
+          S.update();
         }
-
-        loop(poonais, (poonai) => {});
-
-        // UI
-        const poonaisSaved = new Label({
-          text: "Poonais Saved:",
-          size: 32,
-          font: "catboo",
-          color: "white",
-        }).pos(200, 60, RIGHT, TOP);
-        const timeLeft = new Label({
-          text: "Time Left:",
-          size: 32,
-          font: "catboo",
-          color: "white",
-        }).pos(80, 60, LEFT, TOP);
-        var scorer = new Scorer({
-          backgroundColor: "#D1007D",
-          color: white,
-          font: "catboo",
-          isometric: false,
-        }).loc(W - 120, 80);
-        scorer.score = 0;
-        scorer.sca(0.8);
-        // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
-        const timer = new Container(200, 200).pos(230, 5, LEFT, TOP).sca(0.7);
-        const timerBG = new Rectangle(150, 80, "#D1007D").center(timer);
-        const timerText = new Label({
-          text: "60",
-          size: 38,
-          font: "catboo",
-          color: "white",
-        }).center(timer);
-        interval(1, () => {
-          timerText.text--;
-        });
-        // Ticker.add(poonaijump);
-        // function poonaijump() {
-        //   poonai1.force(40, 40, poonai1.x, poonai1.y);
+        // else if (poonai.hitTestCircle(circleContainer2)) {
+        //   zog("catch");
+        //   poonai.dispose();
+        //   S.update();
         // }
-        // Ticker.remove(poonaijump);
-      } // end ready
-    </script>
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-  </head>
-  <body></body>
+      },true
+    );
+  }
+
+
+  // function explosion(px, py) {
+  //   const emitter = new Emitter(new Circle(5, ["#FF97FF", "#00CCFF"]))
+  //     .loc(px, py)
+  //     .sca(1)
+  //     .spurt(5, 1);
+  //   timeout(3, () => {
+  //     emitter.dispose();
+  //     S.update();
+  //     explodeBool = false;
+  //   });
+  // }
+
+  // UI
+  const poonaisSaved = new Label({
+    text: "Poonais Saved:",
+    size: 32,
+    font: "catboo",
+    color: "white",
+  }).pos(200, 60, RIGHT, TOP);
+  const timeLeft = new Label({
+    text: "Time Left:",
+    size: 32,
+    font: "catboo",
+    color: "white",
+  }).pos(80, 60, LEFT, TOP);
+  var scorer = new Scorer({
+    backgroundColor: "#D1007D",
+    color: white,
+    font: "catboo",
+    isometric: false,
+  }).loc(W - 120, 80);
+  scorer.score = 0;
+  scorer.sca(0.8);
+  // new Timer({time:60,borderColor:dark,isometric:LEFT}).loc(W-100,100);
+  const timer = new Container(200, 200).pos(230, 5, LEFT, TOP).sca(0.7);
+  const timerBG = new Rectangle(150, 80, "#D1007D").center(timer);
+  const timerText = new Label({
+    text: "60",
+    size: 38,
+    font: "catboo",
+    color: "white",
+  }).center(timer);
+  const timerInt = interval({
+    time: 1, 
+    call: () => {
+    timerText.text--;
+    },
+    total: 60,
+    complete:()=>{
+      zog("Game Over");
+      gameOver();
+    }});
+  function gameOver(){
+    const pane = new Pane({titleBar:"Game Over!", backgroundColor:"#FF75D8", width: 600, height: 300}).show(); 
+    const retry = new Label({text:"Retry", size: 40, font:"catboo", color:"#D1007D"}).pos(0, 30, CENTER, BOTTOM, pane);
+    const retryBtn = new Button(200, 80, retry, "black").pos(0, 30, CENTER, BOTTOM, pane);
+    const score = new Label({text:"Poonais Saved: "+scorer.score, font:"catboo", size: 40, color:"black"}).pos(0, 120, CENTER, TOP, pane);
+    retry.tap(()=>{
+      location.href = "poonaijumps.html";
+    });
+  }
+} // end ready
+</script>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+</head>
+<body></body>
 </html>
